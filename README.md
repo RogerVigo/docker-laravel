@@ -1,11 +1,11 @@
-#LARAVEL project with DOCKER
+# LARAVEL project with DOCKER
 
-##Introduction
+## Introduction
 
 This project is intended to create a laravel project withing a docker container. It also has the possibility to link a
 existing project. In the following sections will appear different explanations for different contexts
 
-##Create new project from scratch
+## Create new project from scratch
 The project contains some bash scripts
 
 Script      | Functionality
