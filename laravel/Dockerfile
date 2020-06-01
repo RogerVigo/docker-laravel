@@ -1,8 +1,9 @@
-FROM debian:buster
+FROM php:fpm-buster
+
 SHELL ["/bin/bash", "-c"]
 
 RUN apt-get update \
-    && apt-get install -y php7.3 less git php7.3-zip php7.3-mbstring php7.3-xml
+    && apt-get install -y less git
 
 RUN mkdir -p /var/php-libraries/bin/
 
@@ -24,3 +25,17 @@ WORKDIR /var/www/laravel/
 
 RUN source /root/.bashrc && \
     composer create-project --prefer-dist laravel/laravel laravel-project
+
+RUN set -e
+
+RUN chown www-data:www-data ./laravel-project -R
+
+#COPY docker-php-entrypoint /docker-php-entrypoint.sh
+
+#RUN chmod +764 /docker-php-entrypoint.sh
+
+#ENTRYPOINT ["/docker-php-entrypoint.sh"]
+
+CMD php-fpm -F
+
+EXPOSE 80

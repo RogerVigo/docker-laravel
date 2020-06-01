@@ -1,4 +1,3 @@
 #!/bin/bash
 
-#temporary
-docker run -ti --rm --name laravel-container project:laravel bash
+docker-compose --f docker-compose-ok.yml up -d --build
