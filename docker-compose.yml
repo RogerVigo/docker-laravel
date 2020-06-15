@@ -12,8 +12,8 @@ services:
     networks:
       - laravel
     #Use volumes to link the laravel project outside the docker container
-    #volumes:
-    #  - local/path/:/docker/container/project/path
+    volumes:
+      - project-volume:/var/www/laravel/laravel-project/
     
   mysql:
     image: mysql/mysql-server:5.6
@@ -40,6 +40,9 @@ services:
     volumes:
       - ./nginx/laravel.conf:/etc/nginx/conf.d/laravel.local.conf
       
+volumes:
+   project-volume:
+
 networks:
   laravel:
     external:
