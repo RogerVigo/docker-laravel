@@ -7,11 +7,9 @@ RUN apt-get update \
 RUN mkdir -p /var/php-libraries/bin/
 
 RUN php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');" && \
-    php -r "if (hash_file('sha384', 'composer-setup.php') === 'e0012edf3e80b6978849f5eff0d4b4e4c79ff1609dd1e613307e16318854d24ae64f26d17af3ef0bf7cfb710ca74755a') { echo 'Installer verified'; } else { echo 'Installer corrupt'; unlink('composer-setup.php'); } echo PHP_EOL;" && \
-    php composer-setup.php --install-dir=/var/php-libraries/bin/ && \
-    php -r "unlink('composer-setup.php');"
-
-RUN mv /var/php-libraries/bin/composer.phar /var/php-libraries/bin/composer
+	php -r "if (hash_file('sha384', 'composer-setup.php') === '756890a4488ce9024fc62c56153228907f1545c228516cbf63f885e036d37e9a59d27d63f46af1d4d07ee0f76181c7d3') { echo 'Installer verified'; } else { echo 'Installer corrupt'; unlink('composer-setup.php'); } echo PHP_EOL;" && \
+	php composer-setup.php --install-dir=/var/php-libraries/bin/ --filename=composer && \
+	php -r "unlink('composer-setup.php');"
 
 RUN echo "export PATH=$PATH:/var/php-libraries/bin/:/root/.composer/vendor/bin/" >> /root/.bashrc
 
