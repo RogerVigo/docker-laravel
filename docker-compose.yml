@@ -13,15 +13,15 @@ services:
       - laravel
     #Use volumes to link the laravel project outside the docker container
     volumes:
-      - project-volume:/var/www/laravel/laravel-project/
+      - project:/var/www/laravel/laravel-project/
     
   mysql:
-    image: mysql/mysql-server:5.6
+    image: mysql/mysql-server:8
     container_name: laravel-mysql
     networks:
       - laravel
     ports:
-      - 3306:3306
+      - 33069:3306
     environment:
       MYSQL_ROOT_HOST: "%"
       MYSQL_ROOT_PASSWORD: "root"
@@ -31,7 +31,7 @@ services:
     container_name: laravel-nginx
     restart: always
     ports:
-      - 80:80
+      - 8080:80
     depends_on:
       - laravel
     networks:
@@ -39,9 +39,13 @@ services:
     command: /bin/sh -c "exec nginx -g 'daemon off;'"
     volumes:
       - ./nginx/laravel.conf:/etc/nginx/conf.d/laravel.local.conf
-      
+
 volumes:
-   project-volume:
+  project:
+    driver_opts:
+      type: none
+      #device: path to your project
+      o: bind
 
 networks:
   laravel:
