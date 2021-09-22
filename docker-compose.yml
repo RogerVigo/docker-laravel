@@ -6,6 +6,7 @@ services:
     build:
       context: ./laravel
       dockerfile: Dockerfile
+    image: project:laravel
     depends_on:
       - mysql
     container_name: laravel-php
@@ -28,6 +29,7 @@ services:
 
   nginx:
     build: ./nginx
+    image: project:nginx
     container_name: laravel-nginx
     restart: always
     ports:

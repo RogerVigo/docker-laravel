@@ -24,7 +24,7 @@ RUN mkdir -p /var/www/laravel/
 WORKDIR /var/www/laravel/
 
 RUN source /root/.bashrc && \
-    composer create-project --prefer-dist laravel/laravel laravel-project
+    if [ -z "$(ls -A .)" ]; then composer create-project --prefer-dist laravel/laravel laravel-project; fi;
 
 
 RUN set -e
