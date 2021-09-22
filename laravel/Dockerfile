@@ -26,6 +26,7 @@ WORKDIR /var/www/laravel/
 RUN source /root/.bashrc && \
     composer create-project --prefer-dist laravel/laravel laravel-project
 
+
 RUN set -e
 
 RUN chgrp www-data ./laravel-project -R
