@@ -1,26 +1,53 @@
-version: "3.9"
+version: '3.4'
 
 services:
-    backend:
-        build: "./laravel/"
-        volumes:
-            - "laravel:./../"
-        network: laravel
-        links: 
-            - "mysql"
-            - "nginx"
 
-    nginx:
-        build: "./nginx/"
+  laravel:
+    build:
+      context: ./laravel
+      dockerfile: Dockerfile
+    depends_on:
+      - mysql
+    container_name: laravel-php
+    networks:
+      - laravel
+    #Use volumes to link the laravel project outside the docker container
+    volumes:
+      - project:/var/www/laravel/laravel-project/
+    
+  mysql:
+    image: mysql/mysql-server:8
+    container_name: laravel-mysql
+    networks:
+      - laravel
+    ports:
+      - 33069:3306
+    environment:
+      MYSQL_ROOT_HOST: "%"
+      MYSQL_ROOT_PASSWORD: "root"
 
+  nginx:
+    build: ./nginx
+    container_name: laravel-nginx
+    restart: always
+    ports:
+      - 8080:80
+    depends_on:
+      - laravel
+    networks:
+      - laravel
+    command: /bin/sh -c "exec nginx -g 'daemon off;'"
+    volumes:
+      - ./nginx/laravel.conf:/etc/nginx/conf.d/laravel.local.conf
 
-    mysql:
-        image: mysql
-        container_name: laravel-mysql
-        command: --default-authentication-plugin=mysql_native_password
-        restart: always
-        ports:
-        - 33062:3306
-        environment:
-        MYSQL_ROOT_HOST: "%"
-        MYSQL_ROOT_PASSWORD: "root"
+volumes:
+  project:
+    driver_opts:
+      type: none
+      #device: path to your project
+      o: bind
+
+networks:
+  laravel:
+    external:
+      name: laravel
