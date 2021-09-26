@@ -3,7 +3,7 @@ FROM php:fpm-buster
 SHELL ["/bin/bash", "-c"]
 
 RUN apt-get update \
-    && apt-get install -y less git zip
+    && apt-get install -y less git zip default-mysql-client libmariadb-dev-compat libmariadb-dev
 
 RUN mkdir -p /var/php-libraries/bin/
 
