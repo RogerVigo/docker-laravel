@@ -18,6 +18,7 @@ services:
       - laravel
     #Use volumes to link the laravel project outside the docker container
     volumes:
+      - ${PWD}/rebuild-db.sh:/var/www/laravel/rebuild-db.sh
       - project:/var/www/laravel/laravel-project/
     
   mysql:
@@ -45,6 +46,7 @@ services:
     command: /bin/sh -c "exec nginx -g 'daemon off;'"
     volumes:
       - ./nginx/laravel.conf:/etc/nginx/conf.d/laravel.local.conf
+      - project-assets:/var/www/assets
 
   redis:
     image: redis:latest
@@ -60,6 +62,12 @@ volumes:
     driver_opts:
       type: none
       #device: path to your project
+      o: bind
+
+  project-assets:
+    driver_opts:
+      type: none
+      #device: path to public folder for static files (css, js)
       o: bind
 
 networks:
