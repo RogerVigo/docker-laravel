@@ -22,8 +22,10 @@ services:
       - project:/var/www/laravel/laravel-project/
     
   mysql:
-    image: mysql/mysql-server:8
+    image: mysql/mysql-server:8.0
     container_name: laravel-mysql
+    #Only needed with mysql 8 till connector updates to use caching_sha2_password
+    command: mysqld --default-authentication-plugin=mysql_native_password
     networks:
       - laravel
     ports:
