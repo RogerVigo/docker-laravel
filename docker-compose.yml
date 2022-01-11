@@ -10,6 +10,7 @@ services:
         USER_ID: ${USER_ID:-0}
         GROUP_ID: ${GROUP_ID:-0}
     image: project:laravel
+    restart: always
     depends_on:
       - mysql
       - redis
@@ -26,6 +27,7 @@ services:
     container_name: laravel-mysql
     #Only needed with mysql 8 till connector updates to use caching_sha2_password
     command: mysqld --default-authentication-plugin=mysql_native_password
+    restart: always
     networks:
       - laravel
     ports:
